@@ -140,10 +140,12 @@ if __name__ == "__main__":
     text_var = data_ns["Title"].tolist()
     valid_score = find_matches(text_base,text_var)
     for key in valid_score:
+        print("Original")
         print(text_base[key])
         if not key in valid_score or valid_score[key] == None:
             print(100*"*")
             continue
+        print("Matches")
         for ns_index,idf in valid_score[key][0:5]:
             print(text_var[ns_index],idf)
         print(100*"*")
