@@ -110,12 +110,24 @@ def get_valid_matches(count_score,idf_score):
         for ns_index in count_score[key]:
             if count_score[key][ns_index] > 3:
                 if key in valid_score:
-                    valid_score[key].append([ns_index,idf_score[key][ns_index]])
+                    valid_score[key].append([ns_index,count_score[key][ns_index]])
                 else:
-                    valid_score[key] = [[ns_index,idf_score[key][ns_index]]]
+                    valid_score[key] = [[ns_index,count_score[key][ns_index]]]
         if key in valid_score:
             valid_score[key].sort(key=lambda x: x[1],reverse=True)
     return valid_score
+
+
+@timeit
+def reverse_dict(valid_score):
+    reverse_dict = {}
+    for key in valid_score:
+        for ns_index,idf in valid_score[key][0:5]:
+            if not ns_index in key:
+                reverse_dict[ns_index] = [key]
+            else:
+                reverse_dict[ns_index].append[key]
+    return reverse_dict
 
 
 def find_matches(text_base,text_var):
@@ -130,6 +142,7 @@ def find_matches(text_base,text_var):
     idf_score = calculate_score_by_idf(word_list,ns_word_list,idf_word)
     print("Getting valid score")
     valid_score = get_valid_matches(count_score,idf_score)
+    reversed_score = reverse_dict(valid_score)
     return valid_score
 
 
@@ -141,13 +154,13 @@ if __name__ == "__main__":
     valid_score = find_matches(text_base,text_var)
     for key in valid_score:
         print("Original")
-        print(text_base[key])
+        print(text_var[key])
         if not key in valid_score or valid_score[key] == None:
             print(100*"*")
             continue
         print("Matches")
-        for ns_index,idf in valid_score[key][0:5]:
-            print(text_var[ns_index],idf)
+        for ns_index in valid_score[key][0:5]:
+            print(text_base[ns_index])
         print(100*"*")
 
     #print(valid_score)
