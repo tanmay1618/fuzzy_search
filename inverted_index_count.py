@@ -119,14 +119,14 @@ def get_valid_matches(count_score,idf_score):
 
 
 @timeit
-def reverse_dict(valid_score):
+def get_reversed_dict(valid_score):
     reverse_dict = {}
     for key in valid_score:
         for ns_index,idf in valid_score[key][0:5]:
-            if not ns_index in key:
+            if not ns_index in reverse_dict:
                 reverse_dict[ns_index] = [key]
             else:
-                reverse_dict[ns_index].append[key]
+                reverse_dict[ns_index].append(key)
     return reverse_dict
 
 
@@ -142,8 +142,9 @@ def find_matches(text_base,text_var):
     idf_score = calculate_score_by_idf(word_list,ns_word_list,idf_word)
     print("Getting valid score")
     valid_score = get_valid_matches(count_score,idf_score)
-    reversed_score = reverse_dict(valid_score)
-    return valid_score
+    print("Reversing dictionary")
+    reversed_score = get_reversed_dict(valid_score)
+    return reversed_score
 
 
 if __name__ == "__main__":
